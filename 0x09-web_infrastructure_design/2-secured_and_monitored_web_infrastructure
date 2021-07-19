@@ -1,0 +1,46 @@
+2.
+
+
+* For every additional element, why you are adding it. 
+
+
+The web sites must have a firewwall and SSL certificate to protect the site from spoofing and security attacks, as well as, a monitoring tool to detect faults in real time. In our infraestructure was added three firewalls (one por node), three monitoring and a SSL certificate installes over HA proxy.
+
+
+* What are firewalls for
+
+Firewalls are devices can analyze incoming and outgoing traffic based on a set of security rules. Its purpose is to establish a barrier between your internal network and incoming traffic from external sources in order to block malicious traffic like viruses.
+
+* Why is the traffic served over HTTPS
+
+A site served over https is more secure. Since https uses the secure port 443, which encrypts outgoing information, it is much more difficult for people to spy on your site's information. Regular http, on the other hand, uses port 80, which sends information via plain text.
+
+
+* What monitoring is used for 
+
+Monitoring tool is used to continuously keep track of the status of the system in use, in order to have the earliest warning of failures, defects or problems and to improve them. 
+
+* How the monitoring tool is collecting data
+
+In our case we are using sumologin monitoring tool.The local data collection method collects all data locally from each individual system and sends it to Sumo Logic. Using an Installed Collector with a Local File Source is the overall simplest method of collecting data. An Installed Collector is a Java agent that receives logs and metrics from its Sources and then encrypts, compresses, and sends the data to the Sumo service. As its name implies, an Installed Collector is installed in your environment, as opposed to a Hosted Collector, which resides on the Sumo service
+
+
+* Explain what do if you want to monitor your web server QPS.
+
+We need enable real time over the system.
+
+------------------------------
+
+
+* Why terminating SSL at the load balancer level in an issue.
+
+Enabling SSL on our web servers costs more CPU usage, since those servers must become involved in encrypting and decrypting messages. That CPU time could otherwise have been used to do other meaningful work. Web servers can process requests more quickly if they’re not also crunching through encryption algorithms simultaneously. However the term SSL termination means that you are performing all encryption and decryption at the edge of your network. The load balancer strips away the encryption and passes the messages in the clear to your servers which becomes a vulnerability for the total system.
+
+
+* Why having only one MySQL server capable of accepting writes is an issue
+
+Being a high availability architecture, the three web servers must have the same information. In the case of the database, since it can only write to the master node, if replication fails with the secondary nodes, these last nodes will not be able to respond with the updated content to the user.
+
+* Why servers with all the same components (database, web server and application server) might be a problem.
+
+Each server becomes a SPOF (single point of failure), therefore when a failure occurs, three components of the infrastructure are lost for each server: Nginx, Wildfly and MySQL.

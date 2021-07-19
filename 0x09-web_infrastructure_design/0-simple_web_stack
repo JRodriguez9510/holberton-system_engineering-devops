@@ -1,0 +1,46 @@
+0.
+
+* what is a server?
+
+ A server is a computer or system that provides resources, data, services, or programs to other computers, known as clients, over a network. In our case we have in this server: 1 web server (Nginx), 1 application
+ server (Wildfly), 1 application files (github) and 1 database (MySQL).
+
+
+* what is the role of domain name?
+
+ Domain name permit to identify Internet resources, such as computers, networks, and services, with a text-based name that is easier to memorize than the numerical addresses used in the Internet protocols. Domain name system (DNS) provides access to a specific server through the use of a domain name on TCP/IP networks. In our infraestructure this domain name is foobar.com with a CNAME www.foobar.com
+
+*what type of DNS record www is in www.foobar.com?
+
+www is a CNAME record of foobar.com
+
+*What is the role of the web server?
+
+The web server is a computer or system that store and delivers web content to the client over the internet upon request through a web browser. In our infraestructure this role is performed by Nginx
+
+*What is the role of the application server?
+
+Application server is a software that provides application services to computer clients. An application server works in conjunction with other elements such as media servers and session controllers, providing business logic and intelligence for delivering supplementary services to business customer users. In our infraestructure this role is performed by Wildfly
+
+*What is the role the database?
+
+A 'database server' is a server which uses a database software that provides database services to other computer programs or to computers, as defined by the client–server model. Is dedicated to database storage and retrieval, too. In our infraestructure this role is performed by MySQL.
+
+* What is the server using to communicate with the computer of the user requesting the website
+
+The user point of contact is the web server Nginx. Web server Nginx receives and responds to the user's request.
+
+
+------------------------------
+
+* SPOF (Single point of failure) 
+
+There is a single computer that contains all the server roles, web server, application server, application files and database server, so if it fails, all services are dropped.
+
+* Downtime when maintenance needed (like deploying new code web server needs to be restarted)
+
+The websites www.foobar.com it will not be available during the maintenance because the services are hosted on a single server.
+
+* Cannot scale if too much incoming traffic
+
+Since the infrastructure is made up of a single server that hosts all the services, if there is a growth in user concurrency, a single computer may not be able to support the traffic. It is important to strengthen the architecture for load balancing and high availability.

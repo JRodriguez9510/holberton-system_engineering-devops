@@ -1,0 +1,44 @@
+1.
+
+
+* For every additional element, why you are adding it.
+
+In the previous infraestructure we had a single server that which contained all the services to provide the website. In this new infraestructure, we had add another server to strengthen the HA (high availability). In this case the new server added to infraestructure contains just like the first server: 1 web server (Nginx), 1 application server (Wildfly), 1 application files (github) and 1 database (MySQL).
+
+To this infraestructure was also added an HA Proxy (load balancer) to enable high availability.
+
+
+* What distribution algorithm your load balancer is configured with and how it works?
+
+In our infraestrucure we work with round robin algorithm. The load balancing algorithm that is used determines which server, in a backend, will be selected when load balancing. Round robin load balancing is a simple way to distribute client requests across a group of servers. A client request is forwarded to each server in turn. The algorithm instructs the load balancer to go back to the top of the list and repeats again.
+
+Round robin network load balancing rotates connection requests among web servers in the order that requests are received
+
+*Is your load-balancer enabling an Active-Active or Active-Passive setup, explain the difference between both
+
+Our load-balance enabling an Active-Active setup, because both nodes actively running the same kind of service simultaneously. The main purpose of an active-active cluster is to achieve load balancing. Load balancing distributes workloads across the nodes in order to prevent any single node from getting overloaded. Because there are more nodes available to serve, there will also be a marked improvement in throughput and response times.
+
+Active-Pasive setup: Like the active-active cluster configuration, an active-passive cluster also consists of at least two nodes. However, as the name "active-passive" implies, not all nodes are going to be active. In our case of two nodes, if the first node is already active, the second node must be passive or on standby. The passive (failover) server serves as a backup that's ready to take over as soon as the active (primary) server gets disconnected or is unable to serve, an active-passive failover for when a node fails.
+
+
+*How database Primary-Replica (Master-Slave) cluster works
+
+The master receives writes, the slave replicate from the same master via asynchronous or semi-synchronous replication. If the designated master goes down, the most up-to-date slave must be promoted as new master. 
+
+* What is the difference between the Primary node and de Replica node in regard to the application.
+
+The application server in both nodes have the same content, therefore, there is no primary node and no replica node.
+
+------------------------------
+
+* Where are SPOF
+
+There is a single HA Proxy (load-balancer) so if it fails, the web site will not are available.
+
+* Security issues (no firewall, no HTTPS)
+
+The web sites must have a firewwall and SSL certificate to protect the site from spoofing and security attacks.
+
+*No monitoring
+
+Without a monitoring service, it will not be possible to detect failures in real time that may occur with the website, affecting the availability indicators.
